@@ -43,14 +43,4 @@ public class BookService {
     public void deleteBook(int id){
         bookRepository.deleteById(id);
     }
-
-    @Transactional
-    public void setBook(int id, Person person){
-        bookRepository.findById(id).ifPresent(
-                book -> {
-                    book.setTakenAt(new Date());
-                    book.setPerson(person);
-                }
-        );
-    }
 }

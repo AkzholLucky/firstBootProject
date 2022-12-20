@@ -4,6 +4,7 @@ import kz.akzhol.libraryBootProject.dao.BookDAO;
 import kz.akzhol.libraryBootProject.model.Person;
 import kz.akzhol.libraryBootProject.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ public class PersonController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String newPerson(@ModelAttribute("person") Person person){
         return "people/new";
     }
@@ -46,12 +48,14 @@ public class PersonController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deletePerson(@PathVariable("id") int id){
         personService.deletePerson(id);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String updatePerson(@PathVariable("id") int id, Model model){
         model.addAttribute("person", personService.getOnePerson(id));
         return "people/edit";
